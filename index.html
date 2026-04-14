@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Cookie Demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+			width: 80%;
+			max-width: 800px;
+			margin: auto;
+			padding: 1em;
+		}
+		h1 {
+			color: #800000;
+		}
+		#cookie-display {
+			margin: 1em 0;
+			padding: 1em;
+			background-color: #f5f5f5;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		footer p {
+			text-align: center;
+			padding: 1em 0;
+			color: #666;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Cookie Demo</h1>
+	<div id="cookie-display"></div>
+
+	<script>
+		function setCookie(name, value, days) {
+			var expires = "";
+			if (days) {
+				var date = new Date();
+				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+				expires = "; expires=" + date.toUTCString();
+			}
+			document.cookie = name + "=" + value + expires + "; path=/";
+		}
+
+		function getCookie(name) {
+			var nameEQ = name + "=";
+			var cookies = document.cookie.split(";");
+			for (var i = 0; i < cookies.length; i++) {
+				var c = cookies[i].trim();
+				if (c.indexOf(nameEQ) === 0) {
+					return c.substring(nameEQ.length, c.length);
+				}
+			}
+			return null;
+		}
+
+		var display = document.getElementById("cookie-display");
+		var username = getCookie("username");
+
+		if (username) {
+			display.innerHTML = "<p>Welcome back, <strong>" + username + "</strong>!</p>" +
+				"<p>Your cookie value is: " + username + "</p>";
+		} else {
+			username = prompt("Please enter your name:");
+			if (username && username.trim() !== "") {
+				setCookie("username", username.trim(), 30);
+				display.innerHTML = "<p>Cookie has been set for <strong>" + username.trim() + "</strong>.</p>" +
+					"<p>Reload the page to see the cookie displayed.</p>";
+			} else {
+				display.innerHTML = "<p>No cookie was set.</p>";
+			}
+		}
+	</script>
+
+	<footer>
+		<p>&copy; Chima Ozonwoye, 2025</p>
+	</footer>
+</body>
+
+</html>
